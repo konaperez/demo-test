@@ -1,0 +1,15 @@
+index:
+    path: /
+    defaults: { _controller: 'App\Controller\TestController::index' }
+    
+number:
+    path: /number
+    defaults: { _controller: 'App\Controller\IndexController::number' }
+
+name:
+    path: /{name}
+    controller: App\Controller\IndexController::hello
+    requirements:
+        page: '\d+'
+    
+    
