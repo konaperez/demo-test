@@ -38,7 +38,7 @@ class TestController extends Controller
     }
     
     /**
-     * @Route("/test/{id}", name="product_show")
+     * @Route("/test/{id}", name="test_show")
      */
     public function showAction($id)
     {
@@ -57,5 +57,29 @@ class TestController extends Controller
         // or render a template
         // in the template, print things with {{ product.name }}
         // return $this->render('product/show.html.twig', ['product' => $product]);
+    }
+    
+    /**
+     * @Route("/test/edit/{id}", name="test_edit")
+     */
+    
+    public function updateAction($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $test = $entityManager->getRepository(Test::class)->find($id);
+
+        if (!$test) {
+            throw $this->createNotFoundException(
+                'No test found for id '.$id
+            );
+        }
+
+        $test->setDescription('New test name!');
+        $entityManager->flush();
+
+        return $this->redirectToRoute('test_show', [
+            'id' => $test->getId()
+        ]);
+        //*/
     }
 }
