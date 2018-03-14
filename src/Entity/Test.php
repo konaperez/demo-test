@@ -17,4 +17,25 @@ class Test
     private $id;
 
     // add your own fields
+
+     /**
+      * @ORM\Column(type="text")
+      */
+     private $description;
+    
+    
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    }
 }
