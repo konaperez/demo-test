@@ -36,4 +36,26 @@ class TestController extends Controller
         ]);
         */
     }
+    
+    /**
+     * @Route("/test/{id}", name="product_show")
+     */
+    public function showAction($id)
+    {
+        $test = $this->getDoctrine()
+            ->getRepository(Test::class)
+            ->find($id);
+
+        if (!$test) {
+            throw $this->createNotFoundException(
+                'No product found for id '.$id
+            );
+        }
+
+        return new Response('Check out this great product: '.$test->getDescription());
+
+        // or render a template
+        // in the template, print things with {{ product.name }}
+        // return $this->render('product/show.html.twig', ['product' => $product]);
+    }
 }
