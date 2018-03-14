@@ -17,4 +17,9 @@ class Test
     private $id;
 
     // add your own fields
+
+     /**
+      * @ORM\Column(type="text")
+      */
+     private $description;
 }
