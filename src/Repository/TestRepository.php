@@ -18,7 +18,25 @@ class TestRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Test::class);
     }
+    /**
+     * @param $id
+     * @return Test[]
+     */
+    public function findAllGreaterThanPrice($id): array
+    {
+        // automatically knows to select Products
+        // the "p" is an alias you'll use in the rest of the query
+        $qb = $this->createQueryBuilder('t')
+            ->andWhere('t.id < :id')
+            ->setParameter('id', $id)
+            ->orderBy('t.id', 'ASC')
+            ->getQuery();
 
+        return $qb->execute();
+
+        // to get just one result:
+        // $product = $qb->setMaxResults(1)->getOneOrNullResult();
+    }
     /*
     public function findBySomething($value)
     {

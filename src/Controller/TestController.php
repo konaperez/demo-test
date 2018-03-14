@@ -48,7 +48,7 @@ class TestController extends Controller
 
         if (!$test) {
             throw $this->createNotFoundException(
-                'No product found for id '.$id
+                'No test found for id '.$id
             );
         }
 
@@ -77,6 +77,85 @@ class TestController extends Controller
         $test->setDescription('New test name!');
         $entityManager->flush();
 
+        return $this->redirectToRoute('test_show', [
+            'id' => $test->getId()
+        ]);
+        //*/
+    }
+    
+    /**
+     * @Route("/test/delete/{id}", name="test_delete")
+     */
+    
+    public function deleteAction($id)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $test = $entityManager->getRepository(Test::class)->find($id);
+
+        if (!$test) {
+            throw $this->createNotFoundException(
+                'No test found for id '.$id
+            );
+        }
+
+        
+        $entityManager->remove($test);
+        $entityManager->flush();
+
+        return new Response('Entrada test #'.$id.' eliminada');
+
+        /*
+        return $this->redirectToRoute('test_show', [
+            'id' => $test->getId()
+        ]);
+        //*/
+    }
+    
+    /**
+     * @Route("/test/all/", name="test_all")
+     */
+    
+    public function allAction()
+    {
+        
+        $test = $this->getDoctrine()->getRepository(Test::class)->findAll();
+        
+        if (!$test) {
+            throw $this->createNotFoundException(
+                'No test found.'
+            );
+        }
+        
+        $json = json_encode($test);
+        
+        return new Response('Test almacenados: '.$json);
+
+        /*
+        return $this->redirectToRoute('test_show', [
+            'id' => $test->getId()
+        ]);
+        //*/
+    }
+    /**
+     * @Route("/test/bigger/{id}", name="test_bigger")
+     */
+    
+    public function biggerAction($id)
+    {
+        //$entityManager = $this->getDoctrine()->getManager();
+        $test = $this->getDoctrine()->getRepository(Test::class)->findAllGreaterThanPrice($id);
+
+        if (!$test) {
+            throw $this->createNotFoundException(
+                'No test found for id '.$id
+            );
+        }
+
+        
+
+        return new Response('Entrada test Encontradas:'.var_dump($test).' mayor a: '.$id);
+
+        /*
         return $this->redirectToRoute('test_show', [
             'id' => $test->getId()
         ]);
